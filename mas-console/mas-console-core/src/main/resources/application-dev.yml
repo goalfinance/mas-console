@@ -1,0 +1,12 @@
+masconsolecore:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mas
+    username: mas
+    password: mas123
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa-hibernate:
+    generate-ddl: true
+    show-sql: true
+    packages-to-scan: 
+      - pan.mas.console.core.authorizednetwork.domain
+      - pan.mas.console.core.outpost.web.security.domain
