@@ -34,7 +34,7 @@ require([
 		if (typeof tabContainer === "string"){
 			tabContainer = registry.byId(tabContainer);
 		}
-		var tabName = "tab" + demo.basename(href,".html"),
+		var tabName = "tab" + frame.basename(href,""),
 			tab = registry.byId(tabName);
 		if (typeof tab === "undefined"){
 			tab = new ContentPane({

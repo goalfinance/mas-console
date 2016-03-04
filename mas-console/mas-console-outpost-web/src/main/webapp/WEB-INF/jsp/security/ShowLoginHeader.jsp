@@ -8,7 +8,7 @@
 <div class="right-side">
 	<shiro:user>
 		<div data-dojo-type="dijit/form/DropDownButton" data-dojo-props="iconClass:'dijitIconEdit'">
-			<span>${username}</span>
+			<span>Hello, ${nickname}</span>
 			<div data-dojo-type="dijit/Menu" id="editMenu1" style="display: none;">
 				<div data-dojo-type="dijit/MenuItem" data-dojo-props="
 								iconClass:'dijitIconCut',">Log out

@@ -5,7 +5,7 @@
 	<button type="button" data-dojo-type="dijit/form/Button" class="commandButton">
 		  <span>${resource.name}</span>
 			<script type="dojo/on" data-dojo-event="click">
-				frame.addTab("mainTabContainer", "editor.html", "Editor", true);
+				frame.addTab("mainTabContainer", "${resource.rlocation}", "Editor", true);
 			</script>
 	</button>
 	</shiro:hasPermission>

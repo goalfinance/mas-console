@@ -21,6 +21,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import pan.mas.console.core.ApplicationConfig;
+import pan.mas.console.core.TestingConfig;
 import pan.mas.console.core.authorizednetwork.domain.AuthorizedNetwork;
 import pan.mas.console.core.authorizednetwork.repository.AuthorizedNetworkRepository;
 
@@ -29,7 +30,7 @@ import pan.mas.console.core.authorizednetwork.repository.AuthorizedNetworkReposi
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes=ApplicationConfig.class)
+@SpringApplicationConfiguration(classes={ApplicationConfig.class, TestingConfig.class})
 @ActiveProfiles("ut")
 public class AuthorizedNetworkRepositoryIntegrationTesting {
 	@Autowired

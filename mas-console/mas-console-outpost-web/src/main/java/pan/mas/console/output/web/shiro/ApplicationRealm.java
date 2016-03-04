@@ -6,6 +6,8 @@ package pan.mas.console.output.web.shiro;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,11 +17,15 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.Permission;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.authz.permission.WildcardPermissionResolver;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 
 import pan.mas.console.core.outpost.web.security.domain.SecurityUser;
+import pan.mas.console.core.outpost.web.security.domain.SecurityUserPermission;
 import pan.mas.console.core.outpost.web.security.service.OutpostWebSecurityService;
 import pan.utils.AppBizException;
 
@@ -53,7 +59,25 @@ public class ApplicationRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		return null;
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		
+		Map<String, String> account = principals.oneByType(java.util.Map.class);
+		
+		Long userSid = Long.valueOf(account.get("usersid"));
+		
+		try {
+			List<SecurityUserPermission> sups = outpostWebSecurityService.findPermisionByUserSid(userSid);
+			WildcardPermissionResolver permissionResolver =new WildcardPermissionResolver();
+			
+			for (SecurityUserPermission sup:sups){
+				Permission p = permissionResolver.resolvePermission(sup.getPermission());
+				info.addObjectPermission(p);
+			}
+		} catch (AppBizException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return info;
 	}
 
 	/* (non-Javadoc)
@@ -63,9 +87,7 @@ public class ApplicationRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken)authcToken;
 		String username = token.getUsername();
-		char[] passwd = token.getPassword();
-		log.info("Username = '" + username + "'");
-		log.info("password = '" + new String(passwd) + "'");
+
 		try{
 			SecurityUser su = this.outpostWebSecurityService.findSecurityUserInfoByUserId(username);
 			
@@ -81,6 +103,11 @@ public class ApplicationRealm extends AuthorizingRealm {
         LinkedHashMap<String, String> props = new LinkedHashMap<String, String>();
  
         Collection<Object> principals = new ArrayList<Object>(2);
+        
+        props.put("fullname", su.getFullName());
+        props.put("nickname", su.getNickName());
+        props.put("userid", su.getUserId());
+        props.put("usersid", su.getSId().toString());
         principals.add(props);
 
         return new SimplePrincipalCollection(principals, getName());

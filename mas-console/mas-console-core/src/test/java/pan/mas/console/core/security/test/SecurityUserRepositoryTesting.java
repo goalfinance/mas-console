@@ -8,13 +8,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pan.mas.console.core.ApplicationConfig;
+import pan.mas.console.core.TestingConfig;
 import pan.mas.console.core.outpost.web.security.domain.SecurityUser;
 import pan.mas.console.core.outpost.web.security.repository.SecurityUserRepository;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes=ApplicationConfig.class)
+@SpringApplicationConfiguration(classes={ApplicationConfig.class, TestingConfig.class})
 @ActiveProfiles("ut")
 public class SecurityUserRepositoryTesting {
 	@Autowired
