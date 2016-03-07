@@ -74,8 +74,8 @@ public class ApplicationRealm extends AuthorizingRealm {
 				info.addObjectPermission(p);
 			}
 		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
+			return null;
 		}
 		return info;
 	}
@@ -93,8 +93,7 @@ public class ApplicationRealm extends AuthorizingRealm {
 			
 			return new SimpleAuthenticationInfo(createPrincipals(su), su.getPasswd());
 		}catch(AppBizException e){
-			//
-			throw new AuthenticationException(e.getCode());
+			throw new AuthenticationException(e.getMessage(), e);
 		}
 	}
 	

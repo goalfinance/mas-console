@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -29,6 +31,7 @@ import pan.utils.AppBizException;
 @Controller
 @RequestMapping("/security")
 public class SecurityController {
+	private final Log log = LogFactory.getLog(this.getClass());
 	
 	@Reference
 	@Autowired(required=false)
@@ -67,10 +70,10 @@ public class SecurityController {
 	
 	@RequestMapping(value="show_frame")
 	public String showRGroups(Model model){	
+		Set<ResourcesGroup> groups = new HashSet<ResourcesGroup>();
+		model.addAttribute("groups", groups);
 		try {
 			List<SecurityResourceGroup> srgs = securityResourceService.findAllSecurityResourceGroup();
-			Set<ResourcesGroup> groups = new HashSet<ResourcesGroup>();
-			model.addAttribute("groups", groups);
 			
 			for(SecurityResourceGroup srg:srgs){
 				ResourcesGroup rg = new ResourcesGroup();
@@ -79,8 +82,7 @@ public class SecurityController {
 				groups.add(rg);				
 			}
 		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 		
 		return "security/FrameUI";					
@@ -101,11 +103,9 @@ public class SecurityController {
 				resources.add(securedResource);
 			}
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 		return "security/ShowResources";
 	}

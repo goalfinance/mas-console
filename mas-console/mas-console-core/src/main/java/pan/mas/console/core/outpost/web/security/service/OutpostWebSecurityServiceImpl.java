@@ -37,7 +37,9 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 	public SecurityUser findSecurityUserInfoByUserId(String userId) throws AppBizException {
 		SecurityUser su = securityUserRepository.findByUserId(userId);
 		if (su == null){
-			throw new AppBizException(AppExceptionCodes.SEC_USER_DOES_NOT_EXIST);
+			Object[] args = new Object[1];
+			args[0] = userId;
+			throw new AppBizException(AppExceptionCodes.SEC_USER_DOES_NOT_EXIST[0], AppExceptionCodes.SEC_USER_DOES_NOT_EXIST[1], args);
 		}else{
 			return su;			
 		}

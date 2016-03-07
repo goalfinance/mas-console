@@ -34,6 +34,7 @@ import pan.mas.console.output.web.dojo.DojoUtils;
 import pan.mas.console.output.web.dojo.PaginationInfo;
 import pan.utils.AppBizException;
 import pan.utils.AppExceptionCodes;
+import pan.utils.AppRTException;
 
 /**
  * @author panqingrong
@@ -55,59 +56,58 @@ public class AuthNetRestController {
 			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "authNetType", required = false) String authNetType, HttpServletResponse response) {
 		PaginationInfo pInfo = DojoUtils.getPaginationInfo(paginationString);
-		
-		Page<AuthorizedNetwork> anPagination = authorizedNetworkService.findByAuthNetIdAndNameEndsWithAndAuthNetType(authNetId, name, authNetType, new PageRequest(pInfo.getPageNum(), pInfo.getCount()));
-		
+
+		Page<AuthorizedNetwork> anPagination = authorizedNetworkService.findByAuthNetIdAndNameEndsWithAndAuthNetType(
+				authNetId, name, authNetType, new PageRequest(pInfo.getPageNum(), pInfo.getCount()));
+
 		List<AuthNet> authNetList = new ArrayList<AuthNet>();
-		
-		for(AuthorizedNetwork an:anPagination.getContent()){
+
+		for (AuthorizedNetwork an : anPagination.getContent()) {
 			AuthNet authNet = new AuthNet();
 			try {
 				BeanUtils.copyProperties(authNet, an);
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
+						"The error in term of bean copy operation occurred!", e);
 			}
 			authNetList.add(authNet);
 		}
 
 		String contentRange = "items " + pInfo.getStart() + "-"
-				+ (pInfo.getStart() + (anPagination.getContent().size() < pInfo.getCount() ? anPagination.getContent().size() : pInfo.getCount())) + "/"
-			    + anPagination.getTotalElements();
+				+ (pInfo.getStart() + (anPagination.getContent().size() < pInfo.getCount()
+						? anPagination.getContent().size() : pInfo.getCount()))
+				+ "/" + anPagination.getTotalElements();
 		response.setHeader("Content-Range", contentRange);
 		return authNetList;
 	}
 
 	@RequestMapping(value = "{sId}", method = RequestMethod.GET)
-	public AuthNet get(@PathVariable Long sId) throws AppBizException{
+	public AuthNet get(@PathVariable Long sId) throws AppBizException {
 		AuthorizedNetwork authorizedNetwork = authorizedNetworkService.findOne(sId);
-		if (authorizedNetwork == null){
-			throw new AppBizException(AppExceptionCodes.AUTHNET_DOES_NOT_EXIST);
+		if (authorizedNetwork == null) {
+			Object[] args = new Object[1];
+			args[0] = sId;
+			throw new AppBizException(AppExceptionCodes.AUTHNET_DOES_NOT_EXIST[0],
+					AppExceptionCodes.AUTHNET_DOES_NOT_EXIST[1], args);
 		}
 		AuthNet an = new AuthNet();
 		try {
 			BeanUtils.copyProperties(an, authorizedNetwork);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
+					"The error in term of bean copy operation occurred!", e);
 		}
 		return an;
-		
+
 	}
 
 	@RequestMapping(value = "{sId}", method = RequestMethod.DELETE)
 	public void remove(@PathVariable("sId") Long sId) {
 		log.debug("Remove " + sId);
 		AuthorizedNetwork an = authorizedNetworkService.findOne(sId);
-		if(an == null){
-			
-		}else{
+		if (an == null) {
+
+		} else {
 			authorizedNetworkService.delete(an);
 		}
 	}
@@ -122,9 +122,11 @@ public class AuthNetRestController {
 
 			authorizedNetworkService.save(authorizedNetwork);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
+					"The error in term of bean copy operation occurred!", e);
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
+					"The error in term of bean copy operation occurred!", e);
 		}
 	}
 
@@ -132,25 +134,25 @@ public class AuthNetRestController {
 	public void update(@PathVariable("sId") Long sId, @RequestBody AuthNet authNet) {
 		log.debug("Update " + sId);
 		AuthorizedNetwork authorizedNetwork = authorizedNetworkService.findOne(sId);
-		if (authorizedNetwork == null){
-			
+		if (authorizedNetwork == null) {
+
 		}
-		
+
 		try {
 			BeanUtils.copyProperties(authorizedNetwork, authNet);
 			authorizedNetwork.setSId(sId);
 			authorizedNetworkService.save(authorizedNetwork);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
+					"The error in term of bean copy operation occurred!", e);
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
+					"The error in term of bean copy operation occurred!", e);
 		}
 	}
-	
+
 	@ExceptionHandler(AppBizException.class)
-	public ResponseEntity<String> handleAppBizException(AppBizException appBizException){
+	public ResponseEntity<String> handleAppBizException(AppBizException appBizException) {
 		ResponseEntity<String> responseEntity = new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		return responseEntity;
 	}
