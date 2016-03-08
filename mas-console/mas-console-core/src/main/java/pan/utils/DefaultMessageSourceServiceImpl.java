@@ -10,7 +10,7 @@ import org.springframework.context.support.MessageSourceSupport;
 
 /**
  * @author panqingrong
- *
+ * 
  */
 public class DefaultMessageSourceServiceImpl extends MessageSourceSupport implements MessageSourceService {
 

@@ -5,6 +5,7 @@
 package pan.utils;
 
 /**
+ * 
  * @author panqingrong
  *
  */
