@@ -1,7 +1,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div data-dojo-type="dijit/Dialog" id="dialog1" data-dojo-props="title: 'Login...', href: '/security/dialog_login'"></div>
+<div data-dojo-type="dijit/Dialog" data-dojo-id="frame.dialogLogin" id="frame.dialogLogin" data-dojo-props="title: 'Login...', href: '/security/dialog_login'"></div>
 
 <div class="left-side">
 </div>
@@ -23,7 +23,7 @@
 	<shiro:guest>
 		<button data-dojo-type="dijit/form/Button" id="loginButton">Login Form
 			<script type="dojo/on" data-dojo-event="click">
-				frame.registry.byId("dialog1").show();
+				frame.dialogLogin.show();
 			</script>
 		</button>
 	</shiro:guest>

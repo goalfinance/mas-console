@@ -68,7 +68,7 @@ public class AuthNetRestController {
 				BeanUtils.copyProperties(authNet, an);
 			} catch (Exception e) {
 				throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
-						"The error in term of bean copy operation occurred!", e);
+						"The error in terms of bean copy operation occurred!", e);
 			}
 			authNetList.add(authNet);
 		}
@@ -95,7 +95,7 @@ public class AuthNetRestController {
 			BeanUtils.copyProperties(an, authorizedNetwork);
 		} catch (Exception e) {
 			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
-					"The error in term of bean copy operation occurred!", e);
+					"The error in terms of bean copy operation occurred!", e);
 		}
 		return an;
 
@@ -123,10 +123,10 @@ public class AuthNetRestController {
 			authorizedNetworkService.save(authorizedNetwork);
 		} catch (IllegalAccessException e) {
 			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
-					"The error in term of bean copy operation occurred!", e);
+					"The error in terms of bean copy operation occurred!", e);
 		} catch (InvocationTargetException e) {
 			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
-					"The error in term of bean copy operation occurred!", e);
+					"The error in terms of bean copy operation occurred!", e);
 		}
 	}
 
@@ -144,10 +144,10 @@ public class AuthNetRestController {
 			authorizedNetworkService.save(authorizedNetwork);
 		} catch (IllegalAccessException e) {
 			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
-					"The error in term of bean copy operation occurred!", e);
+					"The error in terms of bean copy operation occurred!", e);
 		} catch (InvocationTargetException e) {
 			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
-					"The error in term of bean copy operation occurred!", e);
+					"The error in terms of bean copy operation occurred!", e);
 		}
 	}
 

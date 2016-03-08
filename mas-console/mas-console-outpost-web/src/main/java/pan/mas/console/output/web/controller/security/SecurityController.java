@@ -55,18 +55,18 @@ public class SecurityController {
 		return "security/DialogLogin";
 	}
 	
-	@RequestMapping(value="login", method=RequestMethod.POST)
-	public String login(@ModelAttribute LoginBean loginBean){
-		assert (loginBean.getUsername() != null && loginBean.getUsername().equals("") == false);
-		assert (loginBean.getPassword() != null && loginBean.getPassword().equals("") == false);
-		Subject currentUser = SecurityUtils.getSubject();
-		if (currentUser.isAuthenticated() == false){
-			UsernamePasswordToken token = new UsernamePasswordToken(loginBean.getUsername(), loginBean.getPassword());
-			currentUser.login(token);
-		}
-		
-		return "redirect:/index.jsp"; 
-	}
+//	@RequestMapping(value="login", method=RequestMethod.POST)
+//	public String login(@ModelAttribute LoginBean loginBean){
+//		assert (loginBean.getUsername() != null && loginBean.getUsername().equals("") == false);
+//		assert (loginBean.getPassword() != null && loginBean.getPassword().equals("") == false);
+//		Subject currentUser = SecurityUtils.getSubject();
+//		if (currentUser.isAuthenticated() == false){
+//			UsernamePasswordToken token = new UsernamePasswordToken(loginBean.getUsername(), loginBean.getPassword());
+//			currentUser.login(token);
+//		}
+//		
+//		return "redirect:/index.jsp"; 
+//	}
 	
 	@RequestMapping(value="show_frame")
 	public String showRGroups(Model model){	
