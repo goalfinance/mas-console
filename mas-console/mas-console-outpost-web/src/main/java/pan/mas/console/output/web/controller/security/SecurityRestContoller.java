@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pan.mas.console.output.web.controller.security.formbean.LoginBean;
@@ -26,6 +27,7 @@ import pan.mas.console.output.web.controller.security.formbean.LoginBean;
 public class SecurityRestContoller {
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void login(@RequestBody LoginBean loginBean){
 		assert (loginBean.getUsername() != null && loginBean.getUsername().equals("") == false);
 		assert (loginBean.getPassword() != null && loginBean.getPassword().equals("") == false);
