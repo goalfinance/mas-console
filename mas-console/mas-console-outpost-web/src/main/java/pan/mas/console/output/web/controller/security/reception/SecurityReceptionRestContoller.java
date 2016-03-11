@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pan.mas.console.output.web.controller.security;
+package pan.mas.console.output.web.controller.security.reception;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import pan.mas.console.output.web.controller.security.formbean.LoginBean;
+import pan.mas.console.output.web.controller.security.reception.viewmodels.LoginBean;
 
 /**
  * @author panqingrong
@@ -24,7 +24,7 @@ import pan.mas.console.output.web.controller.security.formbean.LoginBean;
  */
 @RestController
 @RequestMapping("/security")
-public class SecurityRestContoller {
+public class SecurityReceptionRestContoller {
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.NO_CONTENT)

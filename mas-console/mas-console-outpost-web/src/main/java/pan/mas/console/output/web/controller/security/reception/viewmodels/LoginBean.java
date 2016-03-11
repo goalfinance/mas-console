@@ -1,4 +1,4 @@
-package pan.mas.console.output.web.controller.security.formbean;
+package pan.mas.console.output.web.controller.security.reception.viewmodels;
 
 public class LoginBean {
 	private String username;

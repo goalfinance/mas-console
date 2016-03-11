@@ -1,4 +1,4 @@
-package pan.mas.console.output.web.controller.security;
+package pan.mas.console.output.web.controller.security.reception;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,14 +23,14 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import pan.mas.console.core.outpost.web.security.domain.SecurityResource;
 import pan.mas.console.core.outpost.web.security.domain.SecurityResourceGroup;
 import pan.mas.console.core.outpost.web.security.service.SecurityResourceService;
-import pan.mas.console.output.web.controller.security.formbean.LoginBean;
-import pan.mas.console.output.web.controller.security.models.ResourcesGroup;
-import pan.mas.console.output.web.controller.security.models.SecuredResource;
+import pan.mas.console.output.web.controller.security.reception.viewmodels.LoginBean;
+import pan.mas.console.output.web.controller.security.reception.viewmodels.ResourcesGroup;
+import pan.mas.console.output.web.controller.security.reception.viewmodels.SecuredResource;
 import pan.utils.AppBizException;
 
 @Controller
 @RequestMapping("/security")
-public class SecurityController {
+public class SecurityReceptionViewController {
 	private final Log log = LogFactory.getLog(this.getClass());
 	
 	@Reference

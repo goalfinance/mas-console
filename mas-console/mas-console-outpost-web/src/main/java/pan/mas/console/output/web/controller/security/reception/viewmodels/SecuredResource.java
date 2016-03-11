@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pan.mas.console.output.web.controller.security.models;
+package pan.mas.console.output.web.controller.security.reception.viewmodels;
 
 import java.util.Date;
 

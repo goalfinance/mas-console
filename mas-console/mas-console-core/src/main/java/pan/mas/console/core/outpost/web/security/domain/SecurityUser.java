@@ -23,6 +23,9 @@ import lombok.Data;
 @Table(name="t_security_user")
 @Data
 public class SecurityUser implements Serializable{
+	public static final String STATUS_ACTIVE = "A";
+	public static final String STATUS_DISABLE = "D";
+	
 	/**
 	 * 
 	 */
@@ -34,6 +37,9 @@ public class SecurityUser implements Serializable{
 	
 	@Column(name="user_id")
 	private String userId;
+	
+	@Column(name="roles")
+	private String roles;
 	
 	@Column(name="full_name")
 	private String fullName;
@@ -48,5 +54,5 @@ public class SecurityUser implements Serializable{
 	private Date createTime;
 	
 	@Column(name="status")
-	private String status;
+	private String status = STATUS_ACTIVE;
 }
