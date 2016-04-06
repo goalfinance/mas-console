@@ -3,6 +3,8 @@
  */
 package pan.mas.console.output.web.dojo;
 
+import org.springframework.data.domain.Page;
+
 /**
  * @author panqingrong
  *
@@ -24,5 +26,13 @@ public class DojoUtils {
 		pInfo.setPageNum(((Integer.valueOf(rangeData[1]) + 1) / pInfo.getCount() - 1)); 
 		
 		return pInfo;
+	}
+	
+	public static String getHttpContentRange(PaginationInfo pInfo, Page<?> page) {
+		String contentRange = "items " + pInfo.getStart() + "-"
+				+ (pInfo.getStart() + (page.getContent().size() < pInfo.getCount()
+						? page.getContent().size() : pInfo.getCount()))
+				+ "/" + page.getTotalElements();
+		return contentRange;
 	}
 }

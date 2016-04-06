@@ -58,7 +58,7 @@
         <div data-dojo-type="dijit/layout/TabContainer" id="mainTabContainer"
              data-dojo-props="region: 'center'">
             <div data-dojo-type="dijit/layout/ContentPane" id="tabWelcome"
-                 data-dojo-props="title: 'Welcome', href:'/authnet/list_auth_nets'"></div>
+                 data-dojo-props="title: 'Welcome', href:'/security/maintaining/user/maintain_security_user'"></div>
         </div>
     </div>
 </div>

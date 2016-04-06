@@ -56,7 +56,7 @@
 	<div data-dojo-type="dijit/layout/ContentPane"
 		id="authnetQueryResultPane" data-dojo-props="region:'center'">
 		<table data-dojo-type="dojox.grid.EnhancedGrid" data-dojo-id="authnet.grid"
-			data-dojo-props="store: authnet.store, noDataMessage: 'No Files...',
+			data-dojo-props="store: authnet.store, noDataMessage: 'No authorized networks...',
 			plugins:{pagination:true}">
 			<thead>
 				<tr>

@@ -78,10 +78,7 @@ public class AuthNetRestController {
 			authNetList.add(authNet);
 		}
 
-		String contentRange = "items " + pInfo.getStart() + "-"
-				+ (pInfo.getStart() + (anPagination.getContent().size() < pInfo.getCount()
-						? anPagination.getContent().size() : pInfo.getCount()))
-				+ "/" + anPagination.getTotalElements();
+		String contentRange = DojoUtils.getHttpContentRange(pInfo, anPagination);
 		response.setHeader("Content-Range", contentRange);
 		return authNetList;
 	}
