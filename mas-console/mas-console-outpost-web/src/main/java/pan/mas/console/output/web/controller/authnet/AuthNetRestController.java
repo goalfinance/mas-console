@@ -86,12 +86,7 @@ public class AuthNetRestController {
 	@RequestMapping(value = "{sId}", method=RequestMethod.GET, produces=MediaTypes.JSON_UTF_8)
 	public AuthNet get(@PathVariable Long sId) throws AppBizException {
 		AuthorizedNetwork authorizedNetwork = authorizedNetworkService.findOne(sId);
-		if (authorizedNetwork == null) {
-			Object[] args = new Object[1];
-			args[0] = sId;
-			throw new AppBizException(AppExceptionCodes.AUTHNET_DOES_NOT_EXIST[0],
-					AppExceptionCodes.AUTHNET_DOES_NOT_EXIST[1], args);
-		}
+		
 		AuthNet an = new AuthNet();
 		try {
 			BeanUtils.copyProperties(an, authorizedNetwork);
@@ -107,12 +102,18 @@ public class AuthNetRestController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remove(@PathVariable("sId") Long sId) {
 		log.debug("Remove " + sId);
-		AuthorizedNetwork an = authorizedNetworkService.findOne(sId);
+		AuthorizedNetwork an = null;
+		try {
+			an = authorizedNetworkService.findOne(sId);
+		} catch (AppBizException e) {
+			log.error(e.getMessage(), e);
+		}
 		if (an == null) {
 
 		} else {
 			authorizedNetworkService.delete(an);
 		}
+		
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes=MediaTypes.JSON_UTF_8)
@@ -144,11 +145,14 @@ public class AuthNetRestController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void update(@PathVariable("sId") Long sId, @RequestBody AuthNet authNet) {
 		log.debug("Update " + sId);
-		AuthorizedNetwork authorizedNetwork = authorizedNetworkService.findOne(sId);
-		if (authorizedNetwork == null) {
-
+		AuthorizedNetwork authorizedNetwork = null;
+		try {
+			authorizedNetwork = authorizedNetworkService.findOne(sId);
+		} catch (AppBizException e1) {
+			log.error(e1.getMessage(), e1);
+			return;
 		}
-
+		
 		try {
 			BeanUtils.copyProperties(authorizedNetwork, authNet);
 			authorizedNetwork.setSId(sId);

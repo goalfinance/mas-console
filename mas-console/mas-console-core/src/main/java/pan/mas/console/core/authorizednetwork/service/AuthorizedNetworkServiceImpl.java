@@ -20,6 +20,8 @@ import com.alibaba.dubbo.config.annotation.Service;
 
 import pan.mas.console.core.authorizednetwork.domain.AuthorizedNetwork;
 import pan.mas.console.core.authorizednetwork.repository.AuthorizedNetworkRepository;
+import pan.utils.AppBizException;
+import pan.utils.AppExceptionCodes;
 
 /**
  * @author panqingrong
@@ -61,8 +63,16 @@ public class AuthorizedNetworkServiceImpl implements AuthorizedNetworkService {
 	 * pan.mas.console.core.authorizednetwork.service.AuthorizedNetworkService#
 	 * findOne(java.lang.String)
 	 */
-	public AuthorizedNetwork findOne(Long sId) {
-		return authorizedNetworkRepository.findOne(sId);
+	public AuthorizedNetwork findOne(Long sId) throws AppBizException{
+		AuthorizedNetwork authorizedNetwork = authorizedNetworkRepository.findOne(sId);
+		if (authorizedNetwork == null){
+			Object[] args = new Object[1];
+			args[0] = sId;
+			throw new AppBizException(AppExceptionCodes.AUTHNET_DOES_NOT_EXIST[0],
+					AppExceptionCodes.AUTHNET_DOES_NOT_EXIST[1], args);
+		}else{
+			return authorizedNetwork;
+		}
 	}
 
 	/*

@@ -17,4 +17,9 @@ public class SecurityUserViewController {
 	public String showMaintainSecurityUser(){
 		return "security/maintain/MaintainSecurityUser";
 	}
+	
+	@RequestMapping("show_add_form")
+	public String showAddForm(){
+		return "security/maintain/AddSecurityUser";
+	}
 }

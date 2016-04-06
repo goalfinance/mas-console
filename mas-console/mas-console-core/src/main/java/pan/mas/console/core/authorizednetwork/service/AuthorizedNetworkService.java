@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import pan.mas.console.core.authorizednetwork.domain.AuthorizedNetwork;
+import pan.utils.AppBizException;
 
 /**
  * @author panqingrong
@@ -20,7 +21,7 @@ public interface AuthorizedNetworkService {
 
 	public void delete(AuthorizedNetwork authorizedNetwork);
 	
-	public AuthorizedNetwork findOne(Long sId);
+	public AuthorizedNetwork findOne(Long sId) throws AppBizException;
 	
 	public AuthorizedNetwork findByAuthNetId(String authNetId);
 	

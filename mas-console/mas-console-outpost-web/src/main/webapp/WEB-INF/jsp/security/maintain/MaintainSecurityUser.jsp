@@ -1,10 +1,13 @@
+<div data-dojo-type="dijit/Dialog" data-dojo-id="security.maintaining.user.dialogAddForm" id="security.maintaining.user.dialogAddForm" data-dojo-props="title:'Add security user',href:'security/maintaining/user/show_add_form'">
+</div>
+
 <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-id="security.maintaining.user.BorderContainer"
 		id="security.maintaining.user.BorderContrainer">
-	<div data-dojo-type="dojo/store/JsonRest" data-dojo-id="security.maintaining.user.jsonrest"
+	<div data-dojo-type="dojo/store/JsonRest" data-dojo-id="security.maintaining.user.JsonRest"
 		data-dojo-props="target:'/security/maintaining/user/maintain', idProperty:'sid'">
 	</div>
 	<div data-dojo-type="dojo/data/ObjectStore" data-dojo-id="security.maintaining.user.store"
-		data-dojo-props="objectStore:security.maintaining.user.jsonrest">
+		data-dojo-props="objectStore:security.maintaining.user.JsonRest">
 	</div>
 	
 	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-id="security.maintaining.user.QueryPane"
@@ -60,6 +63,9 @@
 		id="security.maintaining.user.ButtonPane"
 		data-dojo-props="region:'bottom'">
 		<div data-dojo-type="dijit/form/Button">New...
+			<script type="dojo/on" data-dojo-event="click">
+				frame.registry.byId("security.maintaining.user.dialogAddForm").show();
+			</script>
 		</div>
 		
 		<div data-dojo-type="dijit/form/Button">Delete

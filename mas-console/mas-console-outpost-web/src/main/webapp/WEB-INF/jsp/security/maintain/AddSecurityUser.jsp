@@ -28,4 +28,20 @@
 		</tr>
 		
 	</table>
+	<div class="dijitDialogPaneActionBar">
+		<div class="left-side">
+		</div>
+		<div class="right-side">
+			<button data-dojo-type="dijit/form/Button">add
+				<script type="dojo/on" data-dojo-event="click">
+					if (security.maintaining.user.addForm.validate() == false){return;}
+					var formObj = dojo.formToObject("security.maintaining.user.addForm");
+					security.maintaining.user.JsonRest.add(formObj).then(function(results){
+						security.maintaining.user.grid._refresh();
+					}, showSrvErrmsg);
+					security.maintaining.user.dialogAddForm.hide();
+				</script>
+			</button>
+		</div>
+	</div>
 </div>
