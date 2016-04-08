@@ -7,7 +7,7 @@
 	
 	
 	
-	<dubbo:application name="Dubbo-provider-on-Mac"/>
+	<dubbo:application name="Dubbo-consumer-on-Mac"/>
 	<dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 	<dubbo:annotation package="pan.mas.console.core.authorizednetwork.service,pan.mas.console.core.outpost.web.security.service"/>
 		   

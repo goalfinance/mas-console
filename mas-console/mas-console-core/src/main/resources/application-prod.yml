@@ -6,7 +6,7 @@ masconsolecore:
     driver-class-name: com.mysql.jdbc.Driver
   jpa-hibernate:
     generate-ddl: true
-    show-sql: false
+    show-sql: true
     packages-to-scan: 
       - pan.mas.console.core.authorizednetwork.domain
       - pan.mas.console.core.outpost.web.security.domain

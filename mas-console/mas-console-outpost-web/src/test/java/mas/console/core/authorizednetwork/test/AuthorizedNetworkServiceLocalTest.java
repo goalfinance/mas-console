@@ -14,6 +14,7 @@ import static org.hamcrest.Matchers.*;
 
 import pan.mas.console.core.authorizednetwork.domain.AuthorizedNetwork;
 import pan.mas.console.core.authorizednetwork.service.AuthorizedNetworkService;
+import pan.mas.console.output.web.ServiceLocalTestConfig;
 
 /**
  * @author panqingrong

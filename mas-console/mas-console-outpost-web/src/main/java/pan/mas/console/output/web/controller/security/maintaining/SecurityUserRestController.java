@@ -40,7 +40,7 @@ import pan.utils.web.MediaTypes;
 @RequestMapping("/security/maintaining/user/maintain")
 public class SecurityUserRestController {
 	
-	@Autowired
+	@Autowired(required=false)
 	@Reference
 	private SecurityUserService securityUserService;
 	

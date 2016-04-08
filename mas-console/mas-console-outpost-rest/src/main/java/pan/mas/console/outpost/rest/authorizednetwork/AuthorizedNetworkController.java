@@ -15,6 +15,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 
 import pan.mas.console.core.authorizednetwork.domain.AuthorizedNetwork;
 import pan.mas.console.core.authorizednetwork.service.AuthorizedNetworkService;
+import pan.utils.AppBizException;
 
 /**
  * @author panqingrong
@@ -28,7 +29,7 @@ public class AuthorizedNetworkController {
 	private AuthorizedNetworkService authorizedNetworkService;
 
 	@RequestMapping(value="/{authNetId}", method=RequestMethod.GET)
-	public AuthorizedNetwork getByAuthNetId(@PathVariable("sId") Long sId){
+	public AuthorizedNetwork getByAuthNetId(@PathVariable("sId") Long sId) throws AppBizException{
 		assert authorizedNetworkService != null;
 		System.out.println("AuthNetId='" + sId + "'");
 		System.out.println(authorizedNetworkService == null? "authorizedNetworkService is null": "it's ok"); 

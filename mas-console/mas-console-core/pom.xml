@@ -104,11 +104,13 @@
                     </configuration>
                 </execution>
                 <execution>
+                	<id>interface</id>
                     <phase>package</phase>
                     <goals>
                         <goal>jar</goal>
                     </goals>
                     <configuration>
+                    	<classifier>interface</classifier>
                         <!-- Need this to ensure application.yml is excluded -->
                         <forceCreation>true</forceCreation>
                         <includes>
@@ -118,6 +120,27 @@
                         	<inlcude>
                         		pan/mas/console/core/authorizednetwork/domain/AuthorizedNetwork.class
                         	</inlcude>
+                        	<include>
+                        		pan/mas/console/core/outpost/web/security/service/OutpostWebSecurityService.class
+                        	</include>
+                        	<include>
+                        		pan/mas/console/core/outpost/web/security/service/SecurityResourceService.class
+                        	</include>
+                        	<include>
+                        		pan/mas/console/core/outpost/web/security/service/SecurityUserService.class
+                        	</include>
+                        	<include>
+                        		pan/mas/console/core/outpost/web/security/domain/SecurityResource.class
+                        	</include>
+                        	<include>
+                        		pan/mas/console/core/outpost/web/security/domain/SecurityResourceGroup.class
+                        	</include>
+                        	<include>
+                        		pan/mas/console/core/outpost/web/security/domain/SecurityUser.class
+                        	</include>
+                        	<include>
+                        		pan/mas/console/core/outpost/web/security/domain/SecurityUserPermission.class
+                        	</include>
                         </includes>
                     </configuration>
                 </execution>
