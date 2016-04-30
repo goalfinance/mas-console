@@ -23,7 +23,7 @@
 		
 		<tr>
 			<td><label for="passwd">Password:</label></td>
-			<td><input type="text" name="passwd" data-dojo-type="dijit/form/ValidationTextBox"
+			<td><input type="password" name="passwd" data-dojo-type="dijit/form/ValidationTextBox"
 						required="false"/></td>
 		</tr>
 		
