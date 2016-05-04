@@ -9,7 +9,7 @@ public interface SecurityUserService {
 
 	public Page<SecurityUser> findByUserId(String userId, int pageNumber, int pageSize);
 	
-	public void save(SecurityUser securityUser);
+	public void register(SecurityUser securityUser) throws AppBizException;
 	
 	public SecurityUser findOne(Long sid) throws AppBizException;
 

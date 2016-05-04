@@ -22,5 +22,10 @@ public class AppExceptionCodes {
 	 * The user that used to be authorized by outpost does not exist in system. 
 	 */
 	public static final String[] SEC_USER_DOES_NOT_EXIST = {"R.MAS.OUTPOST-WEB-SEC.0001", "The user[userId={0}]that used to be authorized by outpost does not exist in system."};
+	
+	/**
+	 * Encountered a error when calculating security algorithm.
+	 */
+	public static final String[] SEC_SECURITY_ALGORITHM__ERROR = {"R.MAS.OUTPOST-WEB-SEC.0002", "Encountered a error when calculating security algorithm."};
 
 }

@@ -68,7 +68,12 @@ public class SecurityUserRestController {
 		assert securityUser != null;
 		
 		securityUser.setCreateTime(new Date());
-		securityUserService.save(securityUser);
+		try {
+			securityUserService.register(securityUser);
+		} catch (AppBizException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		URI uri = uriBuilder.path("/security/maintaining/user/maintain/" + securityUser.getSId()).build().toUri();
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(uri);

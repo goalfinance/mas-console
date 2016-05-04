@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
+import pan.mas.console.core.outpost.web.security.domain.SecurityRolePermission;
 import pan.mas.console.core.outpost.web.security.domain.SecurityUser;
 import pan.mas.console.core.outpost.web.security.domain.SecurityUserPermission;
+import pan.mas.console.core.outpost.web.security.repository.SecurityRolePermissionRepository;
 import pan.mas.console.core.outpost.web.security.repository.SecurityUserPermissionRepository;
 import pan.mas.console.core.outpost.web.security.repository.SecurityUserRepository;
 import pan.utils.AppBizException;
@@ -22,31 +24,42 @@ import pan.utils.AppExceptionCodes;
  *
  */
 @Component
-@Service(version="1.0.0")
+@Service(version = "1.0.0")
 public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService {
-	
+
 	@Autowired
 	private SecurityUserRepository securityUserRepository;
-	
+
 	@Autowired
 	private SecurityUserPermissionRepository securityUserPermissionRepository;
 
-	/* (non-Javadoc)
-	 * @see pan.mas.console.core.outpost.web.security.service.OutpostWebSecurityService#findSecurityUserInfoByUserId(java.lang.String)
+	@Autowired
+	private SecurityRolePermissionRepository securityRolePermissionRepository;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see pan.mas.console.core.outpost.web.security.service.
+	 * OutpostWebSecurityService#findSecurityUserInfoByUserId(java.lang.String)
 	 */
 	public SecurityUser findSecurityUserInfoByUserId(String userId) throws AppBizException {
 		SecurityUser su = securityUserRepository.findByUserId(userId);
-		if (su == null){
+		if (su == null) {
 			Object[] args = new Object[1];
 			args[0] = userId;
-			throw new AppBizException(AppExceptionCodes.SEC_USER_DOES_NOT_EXIST[0], AppExceptionCodes.SEC_USER_DOES_NOT_EXIST[1], args);
-		}else{
-			return su;			
+			throw new AppBizException(AppExceptionCodes.SEC_USER_DOES_NOT_EXIST[0],
+					AppExceptionCodes.SEC_USER_DOES_NOT_EXIST[1], args);
+		} else {
+			return su;
 		}
 	}
 
 	public List<SecurityUserPermission> findPermisionByUserSid(Long userSid) throws AppBizException {
 		return securityUserPermissionRepository.findByUserSid(userSid);
+	}
+
+	public List<SecurityRolePermission> findPermissionByRoleSid(Long roleSid) throws AppBizException {
+		return securityRolePermissionRepository.findByRoleSid(roleSid);
 	}
 
 }

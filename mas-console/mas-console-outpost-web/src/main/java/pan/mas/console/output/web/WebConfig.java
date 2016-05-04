@@ -12,6 +12,7 @@ import javax.servlet.Filter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authz.permission.RolePermissionResolver;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
@@ -36,6 +37,9 @@ import com.stormpath.shiro.client.ClientFactory;
 
 import pan.mas.console.core.outpost.web.security.service.OutpostWebSecurityService;
 import pan.mas.console.output.web.shiro.ApplicationRealm;
+import pan.mas.console.output.web.shiro.DefaultRolePermissionResolver;
+import pan.utils.security.shiro.CredentialsService;
+import pan.utils.security.shiro.HashedCredentialsService;
 
 /**
  * @author panqingrong
@@ -90,8 +94,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	// return new WebCustomizer();
 	// }
 	@Bean
-	public ApplicationRealm applicationRealm() {
-		return new ApplicationRealm(outpostWebSecurityService);
+	public ApplicationRealm applicationRealm(CredentialsService credentialsService) {
+		ApplicationRealm realm = new ApplicationRealm(outpostWebSecurityService, credentialsService);
+		RolePermissionResolver rolePermissionResolver = new DefaultRolePermissionResolver(outpostWebSecurityService);
+		realm.setRolePermissionResolver(rolePermissionResolver);
+		return realm;
+	}
+
+	@Bean
+	//You can change the credentials-logic here.
+	public CredentialsService credentialsService() {
+		return new HashedCredentialsService();
 	}
 
 	@Bean

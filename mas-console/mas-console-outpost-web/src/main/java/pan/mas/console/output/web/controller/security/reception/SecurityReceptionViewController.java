@@ -26,6 +26,7 @@ import pan.mas.console.core.outpost.web.security.service.SecurityResourceService
 import pan.mas.console.output.web.controller.security.reception.viewmodels.LoginBean;
 import pan.mas.console.output.web.controller.security.reception.viewmodels.ResourcesGroup;
 import pan.mas.console.output.web.controller.security.reception.viewmodels.SecuredResource;
+import pan.mas.console.output.web.shiro.ApplicationRealm.ShiroUser;
 import pan.utils.AppBizException;
 
 @Controller
@@ -41,8 +42,8 @@ public class SecurityReceptionViewController {
 	public String showLogin(Model model){
 		Subject currentUser = SecurityUtils.getSubject();
 		if (currentUser.isAuthenticated() == true){
-			Map<String, String> account = currentUser.getPrincipals().oneByType(java.util.Map.class);
-			model.addAttribute("nickname", account.get("nickname"));
+			ShiroUser sUser = (ShiroUser) currentUser.getPrincipals().getPrimaryPrincipal();
+			model.addAttribute("nickname", sUser.getNickname());
 		}
 		return "security/ShowLoginHeader";
 	}

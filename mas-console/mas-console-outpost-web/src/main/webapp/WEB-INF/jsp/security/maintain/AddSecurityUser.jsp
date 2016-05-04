@@ -22,11 +22,18 @@
 		</tr>
 		
 		<tr>
-			<td><label for="passwd">Password:</label></td>
-			<td><input type="password" name="passwd" data-dojo-type="dijit/form/ValidationTextBox"
-						required="false"/></td>
+			<td><label for="plainPasswd">Password:</label></td>
+			<td><input type="password" name="plainPasswd" id="password" data-dojo-type="dijit/form/ValidationTextBox"
+				required="true" trim="true" invalidMessage="Please enter password"/></td>
 		</tr>
 		
+		<tr>
+			<td><label for="confirmPlainPwd">Confirm Password:</label></td>
+			<td><input type="password" name="confirmPlainPwd" data-dojo-type="dijit/form/ValidationTextBox"
+				required="true" trim="true" validator="return this.getValue()==dijit.byId('password').getValue()"
+				invalidMessage="It isn't equal to the password entered above"/></td>
+		</tr>
+				
 	</table>
 	<div class="dijitDialogPaneActionBar">
 		<div class="left-side">
@@ -40,6 +47,7 @@
 						security.maintaining.user.grid._refresh();
 					}, showSrvErrmsg);
 					security.maintaining.user.dialogAddForm.hide();
+					security.maintaining.user.dialogAddForm.reset();
 				</script>
 			</button>
 		</div>
