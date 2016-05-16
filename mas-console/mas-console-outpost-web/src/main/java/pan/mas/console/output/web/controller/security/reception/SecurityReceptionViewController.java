@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 
@@ -33,74 +34,84 @@ import pan.utils.AppBizException;
 @RequestMapping("/security")
 public class SecurityReceptionViewController {
 	private final Log log = LogFactory.getLog(this.getClass());
-	
+
 	@Reference
-	@Autowired(required=false)
+	@Autowired(required = false)
 	private SecurityResourceService securityResourceService;
 
-	@RequestMapping(value="show_login")
-	public String showLogin(Model model){
+	@RequestMapping(value = "show_login")
+	public String showLogin(Model model) {
 		Subject currentUser = SecurityUtils.getSubject();
-		if (currentUser.isAuthenticated() == true){
+		if (currentUser.isAuthenticated() == true) {
 			ShiroUser sUser = (ShiroUser) currentUser.getPrincipals().getPrimaryPrincipal();
 			model.addAttribute("nickname", sUser.getNickname());
+			model.addAttribute("userSid", sUser.getUsersid());
 		}
 		return "security/ShowLoginHeader";
 	}
-	
-	@RequestMapping(value="dialog_login")
-	public String dialogLogin(Model model){
+
+	@RequestMapping(value = "dialog_login")
+	public String dialogLogin(Model model) {
 		LoginBean loginBean = new LoginBean();
 		model.addAttribute("login", loginBean);
-		
+
 		return "security/DialogLogin";
 	}
-	
-//	@RequestMapping(value="login", method=RequestMethod.POST)
-//	public String login(@ModelAttribute LoginBean loginBean){
-//		assert (loginBean.getUsername() != null && loginBean.getUsername().equals("") == false);
-//		assert (loginBean.getPassword() != null && loginBean.getPassword().equals("") == false);
-//		Subject currentUser = SecurityUtils.getSubject();
-//		if (currentUser.isAuthenticated() == false){
-//			UsernamePasswordToken token = new UsernamePasswordToken(loginBean.getUsername(), loginBean.getPassword());
-//			currentUser.login(token);
-//		}
-//		
-//		return "redirect:/index.jsp"; 
-//	}
-	
-	@RequestMapping(value="show_frame")
-	public String showRGroups(Model model){	
+
+	@RequestMapping(value = "show_users_profile_form")
+	public String showUsersProfileForm(@RequestParam(name = "sId", required = true) String sId, Model model) {
+		model.addAttribute("sId", sId);
+		return "security/maintain/ViewSecurityUsersProfile";
+	}
+
+	// @RequestMapping(value="login", method=RequestMethod.POST)
+	// public String login(@ModelAttribute LoginBean loginBean){
+	// assert (loginBean.getUsername() != null &&
+	// loginBean.getUsername().equals("") == false);
+	// assert (loginBean.getPassword() != null &&
+	// loginBean.getPassword().equals("") == false);
+	// Subject currentUser = SecurityUtils.getSubject();
+	// if (currentUser.isAuthenticated() == false){
+	// UsernamePasswordToken token = new
+	// UsernamePasswordToken(loginBean.getUsername(), loginBean.getPassword());
+	// currentUser.login(token);
+	// }
+	//
+	// return "redirect:/index.jsp";
+	// }
+
+	@RequestMapping(value = "show_frame")
+	public String showRGroups(Model model) {
 		Set<ResourcesGroup> groups = new HashSet<ResourcesGroup>();
 		model.addAttribute("groups", groups);
 		try {
 			List<SecurityResourceGroup> srgs = securityResourceService.findAllSecurityResourceGroup();
-			
-			for(SecurityResourceGroup srg:srgs){
+
+			for (SecurityResourceGroup srg : srgs) {
 				ResourcesGroup rg = new ResourcesGroup();
 				rg.setGid(srg.getSid().toString());
 				rg.setName(srg.getName());
-				groups.add(rg);				
+				groups.add(rg);
 			}
 		} catch (AppBizException e) {
 			log.error(e.getMessage(), e);
 		}
-		
-		return "security/FrameUI";					
+
+		return "security/FrameUI";
 	}
-	
-	@RequestMapping(value="show_resources/{gid}")
-	public String showResources(@PathVariable String gid, Model model){
+
+	@RequestMapping(value = "show_resources/{gid}")
+	public String showResources(@PathVariable String gid, Model model) {
 		Set<SecuredResource> resources = new HashSet<SecuredResource>();
 		model.addAttribute("resources", resources);
 		try {
 			List<SecurityResource> srs = securityResourceService.findSecurityResourceByGroupSid(Long.valueOf(gid));
-			for (SecurityResource sr:srs){
+			for (SecurityResource sr : srs) {
 				SecuredResource securedResource = new SecuredResource();
 				securedResource.setRid(sr.getSid().toString());
 				securedResource.setName(sr.getName());
 				securedResource.setRlocation(sr.getLocation());
-				
+
 				resources.add(securedResource);
 			}
 		} catch (NumberFormatException e) {

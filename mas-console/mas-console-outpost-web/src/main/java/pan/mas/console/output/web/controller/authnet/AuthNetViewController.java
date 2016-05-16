@@ -29,7 +29,6 @@ public class AuthNetViewController {
 	@RequestMapping(value="show_view_form")
 	public String showViewForm(@RequestParam(name="sId", required=true) String sId, Model model){
 		model.addAttribute("sId", sId);
-		System.out.println(sId);
 		return "authnet/ViewAuthNet";
 	}
 
