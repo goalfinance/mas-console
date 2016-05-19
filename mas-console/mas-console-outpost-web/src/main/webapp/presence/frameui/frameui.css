@@ -109,6 +109,20 @@ code,
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
+.info-res {
+	text-align: center;
+	margin: 1em;
+	padding: 1em;
+	background-color: #E9F4FE;
+	border: 1px solid #759DC0;
+	-webkit-border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
 .formInfo {
 	text-align: left;
 	margin: 1em;
@@ -205,5 +219,34 @@ div.gridbody{
 	text-align: center;
 	padding-right:4px; 
 	background-position: -110px; 
+}
+
+a.securityresource:link {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	text-align:center;
+	font:#000000;
+	font-size:11px;
+	text-decoration:none;
+}
+a.securityresource:visited {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	text-align:center;
+	font:#000000;
+	font-size:11px;
+	text-decoration:none;
+}
+a.securityresource:hover {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	text-align:center;
+	font:#000000;
+	font-size:12px;
+	text-decoration:none;
+}
+a.securityresource:active {
+	text-align:center;
+	font:#000000;
+	font-size:13px;
+	border: 1px solid black;
+	text-decoration:none;
 }
 

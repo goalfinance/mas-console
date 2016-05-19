@@ -10,7 +10,7 @@ import pan.mas.console.core.outpost.web.security.domain.SecurityResource;
 
 public interface SecurityResourceRepository extends PagingAndSortingRepository<SecurityResource, Long> {
 	
-	@Query("select sr from SecurityResource sr where sr.groupSid = :groupSid")
-	public List<SecurityResource> findByGroupSid(@Param("groupSid")Long groupId);
+	@Query("select sr from SecurityResource sr where sr.groupSid = :groupSid order by sr.sortIdx asc")
+	public List<SecurityResource> findByGroupSidOrderBySortIdx(@Param("groupSid")Long groupId);
 
 }

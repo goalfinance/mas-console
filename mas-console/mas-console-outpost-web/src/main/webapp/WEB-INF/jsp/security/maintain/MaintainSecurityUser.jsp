@@ -1,6 +1,6 @@
 <div data-dojo-type="dojo/store/JsonRest"
 	data-dojo-id="security.maintaining.user.RoleJsonStore"
-	data-dojo-props="target:'/security/maintaining/role/maintain', idProperty:'sid'">
+	data-dojo-props="target:'/security/maintaining/role/maintain/active', idProperty:'sid'">
 </div>
 
 <div data-dojo-type="dojo/data/ObjectStore"

@@ -57,11 +57,6 @@ public class SecurityUserRestController {
 	@Reference
 	private OutpostWebSecurityService outpostWebSecurityUserService;
 	
-	@RequestMapping(value="filter", method=RequestMethod.POST, produces=MediaTypes.JSON_UTF_8)
-	public List<SecurityUser> filter(HttpServletRequest request){
-		return new ArrayList<SecurityUser>();
-	}
-	
 	@RequestMapping(method=RequestMethod.GET, produces=MediaTypes.JSON_UTF_8)
 	public List<SecurityUser> listWithPagination(@RequestHeader("Range") String paginationString,
 			@RequestParam(name="userId", required=false)String userId,

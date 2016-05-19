@@ -1,0 +1,3 @@
+<div class="info-res">
+	No Content......
+</div>

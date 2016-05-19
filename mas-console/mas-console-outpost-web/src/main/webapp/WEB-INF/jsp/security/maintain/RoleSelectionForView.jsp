@@ -13,8 +13,7 @@
 	style="width:300px;height:200px">
 	<thead>
 		<tr>
-			<th field="" width="10%"> </th>
-			<th field="roleName" width="90%">Role Name</th>
+			<th field="roleName" width="100%">Role Name</th>
 		</tr>
 	</thead>
 </table>

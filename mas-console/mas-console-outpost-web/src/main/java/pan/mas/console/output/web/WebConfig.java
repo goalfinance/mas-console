@@ -70,7 +70,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("**/grid/**").addResourceLocations("/presence/");
 		registry.addResourceHandler("**/dojo/**").addResourceLocations("/presence/");
 		registry.addResourceHandler("**/dojox/**").addResourceLocations("/presence/");
-		registry.addResourceHandler("*.css").addResourceLocations("/presence/");
+		registry.addResourceHandler("**/css/*.css").addResourceLocations("/presence/");
 		registry.addResourceHandler("*.js").addResourceLocations("/presence/");
 	}
 

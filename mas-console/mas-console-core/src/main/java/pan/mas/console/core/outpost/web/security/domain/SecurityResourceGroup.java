@@ -32,6 +32,9 @@ public class SecurityResourceGroup implements Serializable{
 	@Column(name="sid")
 	private Long sid;
 	
+	@Column(name="sort_idx")
+	private int sortIdx = 0;
+	
 	@Column(name="name")
 	private String name;
 	

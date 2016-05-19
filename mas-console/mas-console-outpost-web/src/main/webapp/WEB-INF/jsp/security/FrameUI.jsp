@@ -9,6 +9,7 @@
 <link rel="shortcut icon" href="images/favicon.png" />
 
 <link rel="stylesheet" href="/frameui/frameui.css" type="text/css" />
+<link rel="stylesheet" href="/css/buttons.css" type="text/css" />
 <link rel="stylesheet" href="/dojox/layout/resources/FloatingPane.css"
 	type="text/css" />
 <link rel="stylesheet" href="/dojox/layout/resources/ResizeHandle.css"
@@ -67,6 +68,11 @@
 				multiSelect.appendChild(c);
 			}
 		}
+
+		function addTab(container, rloc, title) {
+			frame.addTab(container, rloc, title, true);
+			return false;
+		}
 	</script>
 	<div data-dojo-type="dijit/Dialog"
 		data-dojo-id="frameui.srvsideErrmsgDialog"
@@ -77,28 +83,31 @@
 		data-dojo-props="title:'Change Password'"></div>
 	<div data-dojo-type="dijit/layout/BorderContainer" id="mainContainer"
 		data-dojo-props="gutters:true">
-
 		<div data-dojo-type="dijit/layout/ContentPane" id="headerPane"
-			data-dojo-props="splitter:false, region:'top', href:'/security/show_login'">
+				data-dojo-props="splitter:false, region:'top', href:'/security/show_login'">
+		</div>		
+		<div data-dojo-type="dijit/layout/AccordionContainer"
+			id="leftAccordion" data-dojo-props="region: 'leading', splitter:true" style="width: 250px;" >
+			<c:choose>
+				<c:when test="${groups.size() <= 0}">
+					<div data-dojo-type="dijit/layout/AccordionPane" id="9999"
+					data-dojo-props="title: 'No Content', href:'/security/show_resources/9999'"
+					class="paneAccordion"></div>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${groups}" var="group">
+						<div data-dojo-type="dijit/layout/AccordionPane" id="${group.gid}"
+							data-dojo-props="title: '${group.name}', href:'/security/show_resources/${group.gid}'"
+							class="paneAccordion"></div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			
 		</div>
-		<div data-dojo-type="dijit/layout/BorderContainer" id="mainSplitter"
-			data-dojo-props="liveSplitters: false, design: 'sidebar', region: 'center'">
-			<div data-dojo-type="dijit/layout/AccordionContainer"
-				id="leftAccordion" data-dojo-props="minSize: 20, region: 'leading'">
-				<c:forEach items="${groups}" var="group">
-					<div data-dojo-type="dijit/layout/ContentPane" id="${group.gid}"
-						data-dojo-props="title: '${group.name}', href:'/security/show_resources/${group.gid}'"
-						class="paneAccordion"></div>
-				</c:forEach>
-			</div>
-			<div data-dojo-type="dijit/layout/TabContainer" id="mainTabContainer"
-				data-dojo-props="region: 'center'">
-				<div data-dojo-type="dijit/layout/ContentPane" id="tabWelcome"
-					data-dojo-props="title: 'Welcome', href:'/security/maintaining/user/maintain_security_user'"></div>
-				<!--div data-dojo-type="dijit/layout/ContentPane" id="tabWelcome"
-                 data-dojo-props="title: 'Welcome', href:'/security/maintaining/user/show_add_form'"></div-->
-
-			</div>
+		<div data-dojo-type="dijit/layout/TabContainer" id="mainTabContainer"
+			data-dojo-props="region: 'center', tabStrip:true">
+			<div data-dojo-type="dijit/layout/ContentPane" id="tabWelcome"
+				data-dojo-props="title: 'Welcome', href:'/frameui/tabWelcome.html'"></div>
 		</div>
 	</div>
 </body>

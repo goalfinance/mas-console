@@ -7,18 +7,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
+import pan.mas.console.core.outpost.web.security.domain.SecurityResource;
 import pan.mas.console.core.outpost.web.security.domain.SecurityRole;
 import pan.mas.console.core.outpost.web.security.domain.SecurityRolePermission;
 import pan.mas.console.core.outpost.web.security.domain.SecurityUser;
 import pan.mas.console.core.outpost.web.security.domain.SecurityUserPermission;
+import pan.mas.console.core.outpost.web.security.repository.SecurityResourceRepository;
 import pan.mas.console.core.outpost.web.security.repository.SecurityRolePermissionRepository;
 import pan.mas.console.core.outpost.web.security.repository.SecurityRoleRepository;
 import pan.mas.console.core.outpost.web.security.repository.SecurityUserPermissionRepository;
@@ -49,6 +53,9 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 
 	@Autowired
 	private SecurityRolePermissionRepository securityRolePermissionRepository;
+	
+	@Autowired
+	private SecurityResourceRepository securityResourceReponsitory;
 
 	
 	private void encryptPassword(SecurityUser securityUser) throws AppBizException {
@@ -116,6 +123,18 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 		}
 		return securityRoles;
 	}
+	
+	public List<SecurityRole> findAllActiveSecurityRoles() {
+		Iterator<SecurityRole> securityRoleIterator = securityRoleRepository.findAll().iterator();
+		List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
+		while(securityRoleIterator.hasNext()){
+			SecurityRole securityRole = securityRoleIterator.next();
+			if (securityRole.getStatus().equals(SecurityRole.STATUS_ACTIVE)){
+				securityRoles.add(securityRole);				
+			}
+		}
+		return securityRoles;
+	}
 
 	public void deleteSecurityUser(SecurityUser su) {
 		securityUserRepository.delete(su);
@@ -140,6 +159,43 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 		
 		securityUserRepository.save(su);
 		return false;
+	}
+
+	public void saveSecurityRole(SecurityRole securityRole) throws AppBizException {
+		securityRoleRepository.save(securityRole);
+	}
+
+	public void deleteSecurityRole(SecurityRole securityRole) {
+		securityRoleRepository.delete(securityRole);		
+	}
+
+	public SecurityRole findSecurityRoleBySid(Long sid) throws AppBizException {
+		return securityRoleRepository.findOne(sid);
+	}
+
+	@Transactional(rollbackFor=AppBizException.class)
+	public void saveSecurityRolePermissions(Long roleSid, Set<Long> resourcesPermitted, String permittedAction)
+			throws AppBizException {
+		securityRolePermissionRepository.deleteRolesPermission(roleSid);
+		for (Long resourcePermittedId:resourcesPermitted){
+			SecurityRolePermission srp = new SecurityRolePermission();
+			SecurityResource securityResource = securityResourceReponsitory.findOne(resourcePermittedId);
+			srp.setRoleSid(roleSid);
+			srp.setResourceGroupSid(securityResource.getGroupSid());
+			srp.setPermission(resourcePermittedId + ":" + permittedAction);
+			srp.setResourceSid(resourcePermittedId);
+			srp.setStatus(SecurityRolePermission.STATUS_ACTIVE);
+			srp.setCreatetime(new Date());
+			securityRolePermissionRepository.save(srp);
+		}
+	}
+
+	public void deleteSecurityRolePermission(SecurityRolePermission securityRolePermission) {
+		securityRolePermissionRepository.delete(securityRolePermission);
+	}
+
+	public SecurityRolePermission findSecurityRolePermissionBySid(Long sid) throws AppBizException {
+		return securityRolePermissionRepository.findOne(sid);
 	}
 
 }

@@ -1,22 +1,19 @@
 package pan.mas.console.output.web.controller.security.reception;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -33,11 +30,15 @@ import pan.utils.AppBizException;
 @Controller
 @RequestMapping("/security")
 public class SecurityReceptionViewController {
+	private final static String WELCOME_GROUP_ID = "9999";
+	
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	@Reference
 	@Autowired(required = false)
 	private SecurityResourceService securityResourceService;
+	
+	
 
 	@RequestMapping(value = "show_login")
 	public String showLogin(Model model) {
@@ -82,10 +83,22 @@ public class SecurityReceptionViewController {
 
 	@RequestMapping(value = "show_frame")
 	public String showRGroups(Model model) {
-		Set<ResourcesGroup> groups = new HashSet<ResourcesGroup>();
+		List<ResourcesGroup> groups = new ArrayList<ResourcesGroup>();
 		model.addAttribute("groups", groups);
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		if (currentUser.isAuthenticated() == false) {
+			ResourcesGroup rgDefault = new ResourcesGroup();
+			rgDefault.setName("Welcome Visitor!");
+			rgDefault.setGid(WELCOME_GROUP_ID);
+			groups.add(rgDefault);
+			return "security/FrameUI";
+		}
+		
+	
+		ShiroUser sUser = (ShiroUser) currentUser.getPrincipals().getPrimaryPrincipal();
 		try {
-			List<SecurityResourceGroup> srgs = securityResourceService.findAllSecurityResourceGroup();
+			List<SecurityResourceGroup> srgs = securityResourceService.findSecurityResourceGroupByUserSid(Long.valueOf(sUser.getUsersid()));
 
 			for (SecurityResourceGroup srg : srgs) {
 				ResourcesGroup rg = new ResourcesGroup();
@@ -106,6 +119,9 @@ public class SecurityReceptionViewController {
 		model.addAttribute("resources", resources);
 		try {
 			List<SecurityResource> srs = securityResourceService.findSecurityResourceByGroupSid(Long.valueOf(gid));
+			if (srs.isEmpty()){
+				return "security/NoSecurityResource";
+			}
 			for (SecurityResource sr : srs) {
 				SecuredResource securedResource = new SecuredResource();
 				securedResource.setRid(sr.getSid().toString());

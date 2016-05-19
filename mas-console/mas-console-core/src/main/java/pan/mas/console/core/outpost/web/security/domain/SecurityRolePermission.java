@@ -40,6 +40,12 @@ public class SecurityRolePermission implements Serializable {
 	@Column(name="role_sid")
 	private Long roleSid;
 	
+	@Column(name="resource_sid")
+	private Long resourceSid;
+	
+	@Column(name="resource_group_sid")
+	private Long resourceGroupSid;
+	
 	@Column(name="permission_string")
 	private String permission;
 	

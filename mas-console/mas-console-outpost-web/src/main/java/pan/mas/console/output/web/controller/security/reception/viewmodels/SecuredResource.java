@@ -10,7 +10,10 @@ import java.util.Date;
  *
  */
 public class SecuredResource {
+	public final static String CHECKED_TRUE="true";
+	public final static String CHECKED_FALSE="false";
 	private String rid;
+	private String checked = CHECKED_FALSE;
 	private String name;
 	private String description;
 	private String rlocation;
@@ -56,6 +59,12 @@ public class SecuredResource {
 	}
 	public void setStatus(char status) {
 		this.status = status;
+	}
+	public String getChecked() {
+		return checked;
+	}
+	public void setChecked(String checked) {
+		this.checked = checked;
 	}
 
 }

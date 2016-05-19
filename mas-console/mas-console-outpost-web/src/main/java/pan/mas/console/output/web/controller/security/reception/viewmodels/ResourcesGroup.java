@@ -3,8 +3,8 @@
  */
 package pan.mas.console.output.web.controller.security.reception.viewmodels;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author panqingrong
@@ -13,7 +13,7 @@ import java.util.Set;
 public class ResourcesGroup {
 	private String gid;
 	private String name;
-	private Set<SecuredResource> resources = new HashSet<SecuredResource>();
+	private List<SecuredResource> resources = new ArrayList<SecuredResource>();
 	private String description;
 	private char status;
 	
@@ -33,10 +33,10 @@ public class ResourcesGroup {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Set<SecuredResource> getResources() {
+	public List<SecuredResource> getResources() {
 		return resources;
 	}
-	public void setResources(Set<SecuredResource> resources) {
+	public void setResources(List<SecuredResource> resources) {
 		this.resources = resources;
 	}
 	public String getDescription() {
