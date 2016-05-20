@@ -113,7 +113,6 @@ public class AuthNetRestController {
 		} else {
 			authorizedNetworkService.delete(an);
 		}
-		
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes=MediaTypes.JSON_UTF_8)
@@ -164,11 +163,5 @@ public class AuthNetRestController {
 			throw new AppRTException(AppExceptionCodes.UNRECOVERABLE_SYSTEM_ERROR[0],
 					"The error in terms of bean copy operation occurred!", e);
 		}
-	}
-
-	@ExceptionHandler(AppBizException.class)
-	public ResponseEntity<String> handleAppBizException(AppBizException appBizException) {
-		ResponseEntity<String> responseEntity = new ResponseEntity<String>(HttpStatus.NOT_FOUND);
-		return responseEntity;
 	}
 }

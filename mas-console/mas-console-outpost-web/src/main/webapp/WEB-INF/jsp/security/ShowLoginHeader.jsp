@@ -8,7 +8,10 @@
 <div data-dojo-type="dijit/Dialog" data-dojo-id="frame.dialogUsersProfile"
 	id="frame.dialog.UsersProfile"
 	data-dojo-props="title:'${nickname}\'s profile', href:'/security/show_users_profile_form?sId=${userSid}'"></div>
-
+<div data-dojo-type="dojo/store/JsonRest"
+	data-dojo-id="frame.user.JsonRest"
+	data-dojo-props="target:'/security/maintaining/user/maintain', idProperty:'sid'">
+</div>
 <div class="left-side"></div>
 <div class="right-side">
 	<shiro:user>

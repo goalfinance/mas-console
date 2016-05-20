@@ -32,7 +32,7 @@ public interface OutpostWebSecurityService {
 	
 	public void deleteSecurityUser(SecurityUser su);
 	
-	public boolean changePassword(Long sid, String oldOne, String newOne) throws AppBizException;
+	public void changePassword(Long sid, String oldOne, String newOne) throws AppBizException;
 	
 	public List<SecurityRole> findAllSecurityRoles();
 	

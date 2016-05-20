@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pan.mas.console.core.outpost.web.security.domain.SecurityResource;
-import pan.mas.console.core.outpost.web.security.domain.SecurityRole;
 import pan.mas.console.core.outpost.web.security.domain.SecurityRolePermission;
 import pan.mas.console.core.outpost.web.security.service.OutpostWebSecurityService;
 import pan.mas.console.core.outpost.web.security.service.SecurityResourceService;
@@ -45,54 +44,44 @@ public class SecurityPermissionRestController {
 	private SecurityResourceService securityResourceService;
 		
 	@RequestMapping(value="role", method=RequestMethod.GET, produces=MediaTypes.JSON_UTF_8)
-	public List<RolePermission> listRolePermission(@RequestParam(name="roleSid", required=false)Long roleSid){
+	public List<RolePermission> listRolePermission(@RequestParam(name="roleSid", required=false)Long roleSid) throws AppBizException{
 		List<RolePermission> rps = new ArrayList<RolePermission>();
-		try {
-			List<SecurityRolePermission> srps = outpostWebSecurityService.findPermissionByRoleSid(roleSid);
+	
+		List<SecurityRolePermission> srps = outpostWebSecurityService.findPermissionByRoleSid(roleSid);
 
-			for (SecurityRolePermission srp:srps){
-				RolePermission rp = new RolePermission();
-				SecurityResource sr = securityResourceService.findSecurityResourceBySid(srp.getResourceSid());
-				rp.setResourceSid(srp.getResourceSid());
-				rp.setResourceName(sr.getName());
-				rp.setSid(srp.getSId());
-				String permissionString = srp.getPermission();
-				int idx = permissionString.lastIndexOf(":");
-				String permittedAction = permissionString.substring(idx + 1);
-				rp.setPermittedAction(permittedAction);
-				rp.setCreateTime(srp.getCreatetime());
-				rps.add(rp);
-			}
-		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (SecurityRolePermission srp:srps){
+			RolePermission rp = new RolePermission();
+			SecurityResource sr = securityResourceService.findSecurityResourceBySid(srp.getResourceSid());
+			rp.setResourceSid(srp.getResourceSid());
+			rp.setResourceName(sr.getName());
+			rp.setSid(srp.getSId());
+			String permissionString = srp.getPermission();
+			int idx = permissionString.lastIndexOf(":");
+			String permittedAction = permissionString.substring(idx + 1);
+			rp.setPermittedAction(permittedAction);
+			rp.setCreateTime(srp.getCreatetime());
+			rps.add(rp);
 		}
+
 		return rps;
 	}
 	
 	@RequestMapping(value="role/{roleSid}", method=RequestMethod.PUT, consumes=MediaTypes.JSON_UTF_8)
-	public void update(@PathVariable Long roleSid, @RequestBody Map<Long, Long> permissions){
+	public void update(@PathVariable Long roleSid, @RequestBody Map<Long, Long> permissions) throws AppBizException{
 		Set<Long> permissionSids = permissions.keySet();
-		try {
-			outpostWebSecurityService.saveSecurityRolePermissions(roleSid, permissionSids, "view");
-		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		outpostWebSecurityService.saveSecurityRolePermissions(roleSid, permissionSids, "view");
+		
 	}
 	@RequestMapping(value="role/{sId}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remove(@PathVariable Long sId){
+	public void remove(@PathVariable Long sId) throws AppBizException{
 		log.debug("remove security role permission[sid='" + sId + "']");
-		try {
-			SecurityRolePermission securityRolePermission= outpostWebSecurityService.findSecurityRolePermissionBySid(sId);
-			if (securityRolePermission != null){
-				outpostWebSecurityService.deleteSecurityRolePermission(securityRolePermission);
-			}
-		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		SecurityRolePermission securityRolePermission= outpostWebSecurityService.findSecurityRolePermissionBySid(sId);
+		if (securityRolePermission != null){
+			outpostWebSecurityService.deleteSecurityRolePermission(securityRolePermission);
 		}
+	
 		log.debug("remove security role permissio[sid='" + sId + "'] -- success");
 	}
 

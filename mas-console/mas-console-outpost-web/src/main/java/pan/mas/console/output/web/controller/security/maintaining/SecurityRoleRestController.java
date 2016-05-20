@@ -44,16 +44,12 @@ public class SecurityRoleRestController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, consumes=MediaTypes.JSON_UTF_8)
-	public ResponseEntity<?> add(@RequestBody SecurityRole securityRole, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<?> add(@RequestBody SecurityRole securityRole, UriComponentsBuilder uriBuilder) throws AppBizException{
 		assert securityRole != null;
 		log.debug("Add security role");
 		securityRole.setCreateTime(new Date());
-		try {
-			outpostWebSecurityService.saveSecurityRole(securityRole);
-		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		outpostWebSecurityService.saveSecurityRole(securityRole);
+		
 		URI uri = uriBuilder.path("/security/maintaining/role/maintain/" + securityRole.getSId()).build().toUri();
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setLocation(uri);
@@ -65,18 +61,15 @@ public class SecurityRoleRestController {
 	
 	@RequestMapping(value="{sId}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remove(@PathVariable Long sId){
+	public void remove(@PathVariable Long sId) throws AppBizException{
 		log.debug("remove security role[sid='" + sId + "']");
-		try {
-			SecurityRole securityRole = outpostWebSecurityService.findSecurityRoleBySid(sId);
-			if (securityRole.getStatus().equals(SecurityRole.STATUS_DISABLE) == false){
-				securityRole.setStatus(SecurityRole.STATUS_DISABLE);
-				outpostWebSecurityService.saveSecurityRole(securityRole);
-			}
-		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		SecurityRole securityRole = outpostWebSecurityService.findSecurityRoleBySid(sId);
+		if (securityRole.getStatus().equals(SecurityRole.STATUS_DISABLE) == false){
+			securityRole.setStatus(SecurityRole.STATUS_DISABLE);
+			outpostWebSecurityService.saveSecurityRole(securityRole);
 		}
+
 		log.debug("remove security role[sid='" + sId + "'] -- success");
 	}
 	
@@ -87,16 +80,13 @@ public class SecurityRoleRestController {
 	
 	@RequestMapping(value="{sId}", method=RequestMethod.PUT, consumes=MediaTypes.JSON_UTF_8)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable Long sId, @RequestBody SecurityRole securityRole){
+	public void update(@PathVariable Long sId, @RequestBody SecurityRole securityRole) throws AppBizException{
 		log.debug("update security role[sid='" + sId + "']");
-		try {
-			SecurityRole securityRoleFromDb = outpostWebSecurityService.findSecurityRoleBySid(sId);
-			securityRoleFromDb.setRoleName(securityRole.getRoleName());
-			outpostWebSecurityService.saveSecurityRole(securityRoleFromDb);
-		} catch (AppBizException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		SecurityRole securityRoleFromDb = outpostWebSecurityService.findSecurityRoleBySid(sId);
+		securityRoleFromDb.setRoleName(securityRole.getRoleName());
+		outpostWebSecurityService.saveSecurityRole(securityRoleFromDb);
+		
 		log.debug("update security role[sid='" + sId + "'] -- success");
 	}
 

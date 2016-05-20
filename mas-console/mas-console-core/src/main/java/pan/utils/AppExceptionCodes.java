@@ -27,5 +27,10 @@ public class AppExceptionCodes {
 	 * Encountered a error when calculating security algorithm.
 	 */
 	public static final String[] SEC_SECURITY_ALGORITHM__ERROR = {"R.MAS.OUTPOST-WEB-SEC.0002", "Encountered a error when calculating security algorithm."};
+	
+	/**
+	 * The old password input is not matched.
+	 */
+	public static final String[] SEC_NOT_MATCH_OLDPASSWORD = {"R.MAS.OUTPOST-WEB-SEC.0003", "The old password input is not matched."};
 
 }

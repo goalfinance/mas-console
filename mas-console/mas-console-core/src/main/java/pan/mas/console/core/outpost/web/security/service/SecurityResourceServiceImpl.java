@@ -77,7 +77,7 @@ public class SecurityResourceServiceImpl implements SecurityResourceService {
 			}
 		}
 		
-		//Finally, I get all resources groups' info that are sorted.
+		//Finally, I get all resources groups' infos that are sorted.
 		return securityResourceGroupRepository.findAllBySidInOrderBySortIdxAsc(resourceGroupPermitted);
 	}
 

@@ -41,10 +41,10 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 
 	@Autowired
 	private SecurityUserRepository securityUserRepository;
-	
+
 	@Autowired
 	private CredentialsService credentialsService;
-	
+
 	@Autowired
 	private SecurityRoleRepository securityRoleRepository;
 
@@ -53,17 +53,16 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 
 	@Autowired
 	private SecurityRolePermissionRepository securityRolePermissionRepository;
-	
+
 	@Autowired
 	private SecurityResourceRepository securityResourceReponsitory;
 
-	
 	private void encryptPassword(SecurityUser securityUser) throws AppBizException {
 		securityUser.setSalt(credentialsService.generateSalt());
 		securityUser
 				.setPasswd(credentialsService.encryptPassword(securityUser.getPlainPasswd(), securityUser.getSalt()));
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -117,20 +116,20 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 	public List<SecurityRole> findAllSecurityRoles() {
 		Iterator<SecurityRole> securityRoleIterator = securityRoleRepository.findAll().iterator();
 		List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
-		while(securityRoleIterator.hasNext()){
+		while (securityRoleIterator.hasNext()) {
 			SecurityRole securityRole = securityRoleIterator.next();
 			securityRoles.add(securityRole);
 		}
 		return securityRoles;
 	}
-	
+
 	public List<SecurityRole> findAllActiveSecurityRoles() {
 		Iterator<SecurityRole> securityRoleIterator = securityRoleRepository.findAll().iterator();
 		List<SecurityRole> securityRoles = new ArrayList<SecurityRole>();
-		while(securityRoleIterator.hasNext()){
+		while (securityRoleIterator.hasNext()) {
 			SecurityRole securityRole = securityRoleIterator.next();
-			if (securityRole.getStatus().equals(SecurityRole.STATUS_ACTIVE)){
-				securityRoles.add(securityRole);				
+			if (securityRole.getStatus().equals(SecurityRole.STATUS_ACTIVE)) {
+				securityRoles.add(securityRole);
 			}
 		}
 		return securityRoles;
@@ -139,26 +138,26 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 	public void deleteSecurityUser(SecurityUser su) {
 		securityUserRepository.delete(su);
 	}
-	
-	public void saveSecurityUser(SecurityUser su) throws AppBizException{
+
+	public void saveSecurityUser(SecurityUser su) throws AppBizException {
 		securityUserRepository.save(su);
 	}
 
-	public boolean changePassword(Long sid, String oldOne, String newOne) throws AppBizException{
-		//First of all, check if the old password can be matched.
+	public void changePassword(Long sid, String oldOne, String newOne) throws AppBizException {
+		// First of all, check if the old password can be matched.
 		SecurityUser su = this.findSecurityUserBySid(sid);
-		String oldPwdHashed  = credentialsService.encryptPassword(oldOne, su.getSalt());
-		if (!oldPwdHashed.equalsIgnoreCase(su.getPasswd())){
-			return false;
+		String oldPwdHashed = credentialsService.encryptPassword(oldOne, su.getSalt());
+		if (!oldPwdHashed.equalsIgnoreCase(su.getPasswd())) {
+			throw new AppBizException(AppExceptionCodes.SEC_NOT_MATCH_OLDPASSWORD[0],
+					AppExceptionCodes.SEC_NOT_MATCH_OLDPASSWORD[1]);
 		}
-		
-		//And second, update the new one's info.
+
+		// And second, update the new one's info.
 		su.setSalt(credentialsService.generateSalt());
 		su.setPasswd(credentialsService.encryptPassword(newOne, su.getSalt()));
 		su.setPwdChangeTime(new Date());
-		
+
 		securityUserRepository.save(su);
-		return false;
 	}
 
 	public void saveSecurityRole(SecurityRole securityRole) throws AppBizException {
@@ -166,18 +165,18 @@ public class OutpostWebSecurityServiceImpl implements OutpostWebSecurityService 
 	}
 
 	public void deleteSecurityRole(SecurityRole securityRole) {
-		securityRoleRepository.delete(securityRole);		
+		securityRoleRepository.delete(securityRole);
 	}
 
 	public SecurityRole findSecurityRoleBySid(Long sid) throws AppBizException {
 		return securityRoleRepository.findOne(sid);
 	}
 
-	@Transactional(rollbackFor=AppBizException.class)
+	@Transactional(rollbackFor = AppBizException.class)
 	public void saveSecurityRolePermissions(Long roleSid, Set<Long> resourcesPermitted, String permittedAction)
 			throws AppBizException {
 		securityRolePermissionRepository.deleteRolesPermission(roleSid);
-		for (Long resourcePermittedId:resourcesPermitted){
+		for (Long resourcePermittedId : resourcesPermitted) {
 			SecurityRolePermission srp = new SecurityRolePermission();
 			SecurityResource securityResource = securityResourceReponsitory.findOne(resourcePermittedId);
 			srp.setRoleSid(roleSid);

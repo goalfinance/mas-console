@@ -1,1 +1,1 @@
-<div class="instructionBox">${errMessageText} for testing.</div>
+<div class="instructionBox">${errMessageText}</div>

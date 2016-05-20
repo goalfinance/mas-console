@@ -41,8 +41,9 @@
 </script>
 	<script type="text/javascript">
 		function showSrvErrmsg(error) {
+			console.dir(error);
 			frameui.srvsideErrmsgDialog.set("href",
-					"commons/show_error_message?errmsg=" + error["status"]);
+					"commons/show_error_message?errmsg=" + error["responseText"]);
 			frameui.srvsideErrmsgDialog.show();
 		}
 

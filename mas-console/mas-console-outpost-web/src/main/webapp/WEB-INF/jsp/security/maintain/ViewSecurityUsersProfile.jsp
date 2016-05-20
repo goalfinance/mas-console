@@ -39,7 +39,7 @@
 				<script type="dojo/on" data-dojo-event="click">
 					if (security.maintaining.user.viewProfileForm.validate() == false){return;}
 					var formObj = dojo.formToObject("security.maintaining.user.viewProfileForm");
-					security.maintaining.user.JsonRest.put(formObj, {id:"${sId}"}).then(function(results){
+					frame.user.JsonRest.put(formObj, {id:"${sId}"}).then(function(results){
 						//security.maintaining.user.viewProfileForm.reset();
 						frame.dialogUsersProfile.hide();
 					}, showSrvErrmsg);
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 	<script type="dojo/on" data-dojo-event="show">
-		security.maintaining.user.JsonRest.get("${sId}").then(function(result){
+		frame.user.JsonRest.get("${sId}").then(function(result){
 			security.maintaining.user.viewprofileform.userId.set("value", result.userId);
 			security.maintaining.user.viewprofileform.nickName.set("value", result.nickName);
 			security.maintaining.user.viewprofileform.fullName.set("value", result.fullName);

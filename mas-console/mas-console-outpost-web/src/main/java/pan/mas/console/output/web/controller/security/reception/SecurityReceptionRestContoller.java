@@ -41,7 +41,7 @@ public class SecurityReceptionRestContoller {
 	
 	@ExceptionHandler(AuthenticationException.class)
 	public ResponseEntity<String> handleAuthenticationException(AuthenticationException e){
-		ResponseEntity<String> responseEntity = new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("You can not pass the authentication!", HttpStatus.FORBIDDEN);
 		return responseEntity;
 	}
 
