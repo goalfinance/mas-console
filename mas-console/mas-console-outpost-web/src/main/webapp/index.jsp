@@ -1,1 +1,1 @@
-<jsp:forward page="security/show_frame"/>
+<jsp:forward page="dojo/security/show_frame"/>

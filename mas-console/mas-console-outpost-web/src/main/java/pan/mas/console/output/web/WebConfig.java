@@ -24,6 +24,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -47,6 +48,7 @@ import pan.utils.security.shiro.HashedCredentialsService;
  */
 @Configuration
 @EnableWebMvc
+
 public class WebConfig extends WebMvcConfigurerAdapter {
 	@Autowired(required = false)
 	@Reference
@@ -72,6 +74,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("**/dojox/**").addResourceLocations("/presence/");
 		registry.addResourceHandler("**/css/*.css").addResourceLocations("/presence/");
 		registry.addResourceHandler("*.js").addResourceLocations("/presence/");
+		registry.addResourceHandler("**/devoops/**").addResourceLocations("/presence/");
 	}
 
 	// private class WebCustomizer implements EmbeddedServletContainerCustomizer
@@ -122,16 +125,20 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		securityManager.setRealm(applicationRealm);
 		securityManager.setCacheManager(cacheManager);
+		
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
+		shiroFilterFactoryBean.setLoginUrl("/bs/security/show_login");
+		shiroFilterFactoryBean.setSuccessUrl("/bs/security/show_app_frame");
 		// shiroFilterFactoryBean.setSuccessUrl("/index.jsp");
 
 		LogoutFilter logoutFilter = new LogoutFilter();
 		logoutFilter.setRedirectUrl("/frameui/frameui.html");
 		shiroFilterFactoryBean.getFilters().put("logout", logoutFilter);
-
+		
 		Map<String, String> filterChainDefinitionMap = new HashMap<String, String>();
 		filterChainDefinitionMap.put("/logout", "logout");
+		filterChainDefinitionMap.put("/bs/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		try {

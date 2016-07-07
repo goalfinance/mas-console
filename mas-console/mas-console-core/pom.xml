@@ -1,163 +1,170 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>pan.cisten.mas.mas-console</groupId>
-    <artifactId>mas-console-root</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
-  
-  <artifactId>mas-console-core</artifactId>
-  <packaging>jar</packaging>
-  
-  <name>The core module of the console of MAS</name>
-  <description>The console system's core module.</description>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>pan.cisten.mas.mas-console</groupId>
+		<artifactId>mas-console-root</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 
-  <url>http://maven.apache.org</url>
-  
-  <dependencies>
-    <dependency>
-    	<groupId>org.springframework.boot</groupId>
-    	<artifactId>spring-boot-starter-data-jpa</artifactId>
-    	<exclusions>
-    		<exclusion>
-    			<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-    		</exclusion>
-    		<exclusion>
-    			<groupId>org.slf4j</groupId>
-				<artifactId>log4j-over-slf4j</artifactId>
-    		</exclusion>
-    	</exclusions>
-    </dependency>
-    
-    <dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-	</dependency>
-	
-	<dependency>
-		<groupId>com.alibaba</groupId>
-		<artifactId>dubbo</artifactId>
-		<version>2.5.3</version>
-		<exclusions>
-			<exclusion>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring</artifactId>
-			</exclusion>
-			
-		</exclusions>
-	</dependency>
-	
-	<dependency>
-		<groupId>com.googlecode.xmemcached</groupId>
-		<artifactId>xmemcached</artifactId>
-		<version>2.0.0</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>com.caucho</groupId>
-		<artifactId>hessian</artifactId>
-		<version>4.0.38</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>com.101tec</groupId>
-		<artifactId>zkclient</artifactId>
-		<version>0.6</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>org.hsqldb</groupId>
-		<artifactId>hsqldb</artifactId>
-	</dependency>
-	
-	<dependency>
-        <groupId>com.fasterxml.jackson.module</groupId>
-        <artifactId>jackson-module-jaxb-annotations</artifactId>
-        <version>2.6.4</version>
-        <optional>true</optional>
-    </dependency>
-    
-    <dependency>
-		<groupId>commons-codec</groupId>
-		<artifactId>commons-codec</artifactId>
-		<version>1.10</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-lang3</artifactId>
-		<version>3.4</version>
-	</dependency>
-  </dependencies>
-  <build>
-    <plugins>
-  		<plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <classifier>exec</classifier>
-            </configuration>
-        </plugin>
-        
-        <plugin>
-            <artifactId>maven-jar-plugin</artifactId>
-            <executions>
-                <execution>
-                    <id>exec</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>jar</goal>
-                    </goals>
-                    <configuration>
-                        <classifier>exec</classifier>
-                    </configuration>
-                </execution>
-                <execution>
-                	<id>interface</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>jar</goal>
-                    </goals>
-                    <configuration>
-                    	<classifier>interface</classifier>
-                        <!-- Need this to ensure application.yml is excluded -->
-                        <forceCreation>true</forceCreation>
-                        <includes>
-                        	<include>
-								pan/mas/console/core/authorizednetwork/service/AuthorizedNetworkService.class
-                        	</include>
-                        	<inlcude>
-                        		pan/mas/console/core/authorizednetwork/domain/AuthorizedNetwork.class
-                        	</inlcude>
-                        	<include>
-                        		pan/mas/console/core/outpost/web/security/service/OutpostWebSecurityService.class
-                        	</include>
-                        	<include>
-                        		pan/mas/console/core/outpost/web/security/service/SecurityResourceService.class
-                        	</include>
-                        	<include>
-                        		pan/mas/console/core/outpost/web/security/service/SecurityUserService.class
-                        	</include>
-                        	<include>
-                        		pan/mas/console/core/outpost/web/security/domain/SecurityResource.class
-                        	</include>
-                        	<include>
-                        		pan/mas/console/core/outpost/web/security/domain/SecurityResourceGroup.class
-                        	</include>
-                        	<include>
-                        		pan/mas/console/core/outpost/web/security/domain/SecurityUser.class
-                        	</include>
-                        	<include>
-                        		pan/mas/console/core/outpost/web/security/domain/SecurityUserPermission.class
-                        	</include>
-                        </includes>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
+	<artifactId>mas-console-core</artifactId>
+	<packaging>jar</packaging>
+
+	<name>The core module of the console of MAS</name>
+	<description>The console system's core module.</description>
+
+	<url>http://maven.apache.org</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>log4j-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.5.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.xmemcached</groupId>
+			<artifactId>xmemcached</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+			<version>4.0.38</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+			<version>2.6.4</version>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.14</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<classifier>exec</classifier>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>exec</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</execution>
+					<execution>
+						<id>interface</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>interface</classifier>
+							<!-- Need this to ensure application.yml is excluded -->
+							<forceCreation>true</forceCreation>
+							<includes>
+								<include>
+									pan/mas/console/core/authorizednetwork/service/AuthorizedNetworkService.class
+								</include>
+								<inlcude>
+									pan/mas/console/core/authorizednetwork/domain/AuthorizedNetwork.class
+								</inlcude>
+								<include>
+									pan/mas/console/core/outpost/web/security/service/OutpostWebSecurityService.class
+								</include>
+								<include>
+									pan/mas/console/core/outpost/web/security/service/SecurityResourceService.class
+								</include>
+								<include>
+									pan/mas/console/core/outpost/web/security/service/SecurityUserService.class
+								</include>
+								<include>
+									pan/mas/console/core/outpost/web/security/domain/SecurityResource.class
+								</include>
+								<include>
+									pan/mas/console/core/outpost/web/security/domain/SecurityResourceGroup.class
+								</include>
+								<include>
+									pan/mas/console/core/outpost/web/security/domain/SecurityUser.class
+								</include>
+								<include>
+									pan/mas/console/core/outpost/web/security/domain/SecurityUserPermission.class
+								</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

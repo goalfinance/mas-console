@@ -13,8 +13,8 @@ masconsolecore:
 server:
   port: 8443
   ssl:
-    key-store: classpath:ks_test
-    trust-store: classpath:ks_test
+    key-store: classpath:keystore/ks_test
+    trust-store: classpath:keystore/ks_test
     client-auth: need
     key-store-password: 123456
     trust-store-password: 123456
