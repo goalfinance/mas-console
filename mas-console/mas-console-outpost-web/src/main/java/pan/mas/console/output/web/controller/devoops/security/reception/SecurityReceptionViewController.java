@@ -20,7 +20,7 @@ import pan.utils.AppBizException;
  *
  */
 @Controller("devoops.SecurityReceptionViewController")
-@RequestMapping("/bs/security")
+@RequestMapping("/devoops/security")
 public class SecurityReceptionViewController {
 
 	@Autowired

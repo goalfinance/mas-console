@@ -110,8 +110,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return new HashedCredentialsService();
 	}
 
-	@Bean
-	public FilterRegistrationBean shiroFilterRegistration(ApplicationRealm applicationRealm) {
+	@Bean(name="dojo.ShiroFilterFactoryBean")
+	public FilterRegistrationBean shiroFilterRegistration4Dojo(ApplicationRealm applicationRealm) {
 		MemoryConstrainedCacheManager cacheManager = new MemoryConstrainedCacheManager();
 		// ClientFactory stormPathClientFactory = new ClientFactory();
 		// ApplicationRealm applicationRealm = new ApplicationRealm();
@@ -128,8 +128,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
-		shiroFilterFactoryBean.setLoginUrl("/bs/security/show_login");
-		shiroFilterFactoryBean.setSuccessUrl("/bs/security/show_app_frame");
 		// shiroFilterFactoryBean.setSuccessUrl("/index.jsp");
 
 		LogoutFilter logoutFilter = new LogoutFilter();
@@ -138,15 +136,61 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		
 		Map<String, String> filterChainDefinitionMap = new HashMap<String, String>();
 		filterChainDefinitionMap.put("/logout", "logout");
-		filterChainDefinitionMap.put("/bs/**", "authc");
+		
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		try {
 			Filter shiroFilter = (Filter) shiroFilterFactoryBean.getObject();
 			FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(shiroFilter);
 			List<String> urlPatterns = new ArrayList<String>();
-			urlPatterns.add("/*");
+			urlPatterns.add("/dojo/*");
 			filterRegistrationBean.setUrlPatterns(urlPatterns);
+			filterRegistrationBean.setName("springShiroFilter4Dojo");
+			return filterRegistrationBean;
+		} catch (Exception e) {
+			throw new BeanInstantiationException(FilterRegistrationBean.class,
+					"A error in terms of instantiating bean occured!, errmsg:[" + e.getMessage() + "]");
+		}
+	}
+	
+	@Bean(name="devoops.ShiroFilterFactoryBean")
+	public FilterRegistrationBean shiroFilterRegistration4devoops(ApplicationRealm applicationRealm) {
+		MemoryConstrainedCacheManager cacheManager = new MemoryConstrainedCacheManager();
+		// ClientFactory stormPathClientFactory = new ClientFactory();
+		// ApplicationRealm applicationRealm = new ApplicationRealm();
+		//
+		// stormPathClientFactory.setApiKeyFileLocation("/Users/panqingrong/.stormpath/apiKey.properties");
+		// stormPathClientFactory.setCacheManager(cacheManager);
+		// applicationRealm.setClient(stormPathClientFactory.getInstance());
+		// applicationRealm.setApplicationRestUrl("https://api.stormpath.com/v1/applications/6f5WWmpCug76oHXUaon2Nq");
+		//
+
+		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+		securityManager.setRealm(applicationRealm);
+		securityManager.setCacheManager(cacheManager);
+		
+		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+		shiroFilterFactoryBean.setSecurityManager(securityManager);
+		shiroFilterFactoryBean.setLoginUrl("/devoops/security/show_login");
+		shiroFilterFactoryBean.setSuccessUrl("/devoops/security/show_app_frame");
+		// shiroFilterFactoryBean.setSuccessUrl("/index.jsp");
+
+		LogoutFilter logoutFilter = new LogoutFilter();
+		logoutFilter.setRedirectUrl("/frameui/frameui.html");
+		shiroFilterFactoryBean.getFilters().put("logout", logoutFilter);
+		
+		Map<String, String> filterChainDefinitionMap = new HashMap<String, String>();
+		filterChainDefinitionMap.put("/logout", "logout");
+		filterChainDefinitionMap.put("/devoops/**", "authc");
+		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
+		try {
+			Filter shiroFilter = (Filter) shiroFilterFactoryBean.getObject();
+			FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(shiroFilter);
+			List<String> urlPatterns = new ArrayList<String>();
+			urlPatterns.add("/devoops/*");
+			filterRegistrationBean.setUrlPatterns(urlPatterns);
+			filterRegistrationBean.setName("springShiroFilter4Devoops");
 			return filterRegistrationBean;
 		} catch (Exception e) {
 			throw new BeanInstantiationException(FilterRegistrationBean.class,
